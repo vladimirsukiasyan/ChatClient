@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_message_sent.view.*
 
 
-class MessageListAdapter(private val mContext: Context, private val mMessageList: List<Message> = listOf()) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MessageListAdapter(private val mContext: Context, private val mMessageList: List<Message>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == VIEW_TYPE_MESSAGE_SENT) {
@@ -41,13 +41,18 @@ class MessageListAdapter(private val mContext: Context, private val mMessageList
 
     inner class SentMessageHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(message: Message) {
-            itemView.text_message_body.text=message.message
+            itemView.text_message_body.text = message.message
         }
     }
 
     inner class ReceivedMessageHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(message: MessageReceived) {
-            itemView.text_message_body.text=message.message+"\n"+message.body
+            if(message.continue_dialog_on_client){
+                itemView.text_message_body.text=message.message
+            }
+            else {
+                itemView.text_message_body.text="${message.message}\n${convertListToChatAnswer(message.body)}"
+            }
         }
     }
 

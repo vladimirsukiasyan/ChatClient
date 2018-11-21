@@ -19,9 +19,7 @@ class HostPortDialogFragment : DialogFragment() {
                     val host = view.host_edit_text.text.toString()
                     val port = view.port_edit_text.text.toString()
 
-                    val edit = activity?.getSharedPreferences("configuration", Context.MODE_PRIVATE)?.edit()
-                    edit?.putString("host", host)?.apply()
-                    edit?.putString("port", port)?.apply()
+                    activity?.saveHttpConfig(host,port)
 
                     dialog.dismiss()
                 }
